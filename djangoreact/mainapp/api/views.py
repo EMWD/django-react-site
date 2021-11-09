@@ -1,9 +1,25 @@
-from django.http import response
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import viewsets
 
-class TestAPIView(APIView):
+from .serializers import *
+from ..models import BlogCategory, BlogPost
 
-    def get(self, request, *args, **kwargs):
-        data = [{'id':1, 'name':'Name1'}, {'id':2, 'name':'Name2'}]
-        return Response(data)
+
+class BlogCategoryViewSet(viewsets.ModelViewSet):
+    queryset = BlogCategory.objects.all()
+    serializer_class = BlogCategorySerializer
+
+    action_to_serializer= {
+        'list': '',
+        'retrieve': ''
+    }
+
+
+class BlogPostViewSet(viewsets.ModelViewSet):
+    queryset = BlogPost.objects.all()
+    serializer_class = BlogPostSerializer
+
+
+    action_to_serializer= {
+        'list': BlogPostListRetrieveSerializer,
+        'retrieve': BlogPostListRetrieveSerializer
+    }
